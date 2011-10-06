@@ -1,0 +1,30 @@
+{
+  "JAVASCRIPT": {
+    "DIST_DIR": "./dist/",
+    "fidel.floater": [
+      "./lib/copyright.js",
+      "./lib/floater.js"
+    ],
+    "fidel.floater.full": [
+      "./lib/copyright.js",
+      "./vendor/fidel.js",
+      "./lib/floater.js"
+    ]
+  },
+  "JSHINT_OPTS": {
+    "boss": true,
+    "forin": false,
+    "curly": true,
+    "debug": false,
+    "devel": false,
+    "evil": false,
+    "regexp": false,
+    "undef": false,
+    "sub": true,
+    "white": true,
+    "indent": 2,
+    "whitespace": true,
+    "asi": true
+  }
+}
+

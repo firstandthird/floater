@@ -1,14 +1,12 @@
 {
   "JAVASCRIPT": {
     "DIST_DIR": "./dist/",
-    "fidel.floater": [
+    "floater": [
       "./lib/copyright.js",
-      "./lib/floater.js"
-    ],
-    "fidel.floater.full": [
-      "./lib/copyright.js",
-      "./vendor/fidel.js",
-      "./lib/floater.js"
+      "./lib/amd-top.js",
+      "./vendor/aug/lib/aug.js",
+      "./lib/floater.js",
+      "./lib/amd-bottom.js"
     ]
   },
   "JSHINT_OPTS": {

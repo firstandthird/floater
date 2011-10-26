@@ -1,4 +1,5 @@
 boosh:
+	git submodule update --init
 	smoosh make ./build.json
 
 clean:

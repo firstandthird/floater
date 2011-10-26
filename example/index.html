@@ -1,21 +1,26 @@
 <html>
 	<head>
-		<title>Fidel Module Example</title>
+		<title>Floater Module Example</title>
 		<script src="live.js"></script>
 		<script src="jquery.min.js"></script>
-		<script src="../vendor/fidel.js"></script>
-		<script src="../lib/floater.js"></script>
+        <!--<script src="../vendor/aug/dist/aug.js"></script>-->
+		<!--<script src="../lib/floater.js"></script>-->
+		<script src="../dist/floater.js"></script>
 		<style>
             body { margin: 0; padding: 0; }
             .wrapper { width: 980px; margin: 0 auto; position: relative; }
             .header, .footer { height: 150px; background: #ccc; }
-            .floater { position: absolute; background: #f0f0f0; height: 300px; width: 100px; margin-left: -120px; top: 150px }
+            .floater { position: absolute; background: #f0f0f0; height: 300px; width: 100px; margin-left: -120px; display: none;}
+            .floater2 { position: absolute; background: #f0f0f0; height: 300px; width: 100px; margin-left: 1000px; display: none;}
             .content { height: 2000px; }
 		</style>
 	</head>
 	<body>
         <div class="wrapper">
             <div class="floater">
+                I Float
+            </div>
+            <div class="floater2">
                 I Float
             </div>
             <div class="header">header</div>
@@ -25,10 +30,8 @@
             <div class="footer">footer</div>
         </div>
         <script>
-            var floater = new Fidel.Floater({ el: $(".floater"), stopPoint: 600 });
-            setTimeout(function() {
-                //window.scrollTo(0, 200);
-            });
+            var floater = new Floater({ el: $(".floater"), stopPoint: 800, startPoint: 150 });
+            var floater2 = new Floater({ el: $(".floater2") });
         </script>
 	</body>
 </html>

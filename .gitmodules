@@ -1,3 +1,0 @@
-[submodule "vendor/aug"]
-	path = vendor/aug
-	url = git@github.com:jgallen23/aug.git

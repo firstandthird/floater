@@ -3,10 +3,7 @@
     "DIST_DIR": "./dist/",
     "floater": [
       "./lib/copyright.js",
-      "./lib/amd-top.js",
-      "./vendor/aug/lib/aug.js",
-      "./lib/floater.js",
-      "./lib/amd-bottom.js"
+      "./lib/floater.js"
     ]
   },
   "JSHINT_OPTS": {

@@ -1,8 +1,8 @@
 /*!
   * Floater - a jQuery library to float an element 
-  * v0.0.3
+  * v0.0.4
   * https://github.com/jgallen23/floater
-  * copyright JGA 2011
+  * copyright JGA 2012
   * MIT License
   */
 
@@ -22,10 +22,8 @@
       this.height = this.el.height();
 
       this.opts.startPoint = this.opts.startPoint == -1 ? this.originY : this.opts.startPoint;
-      //console.log(originX, originY, start);
 
       this.floating = false;
-      console.log(this);
       $(window).scroll($.proxy(this.onScroll, this));
     },
     startPoint: function(point) {

@@ -1,71 +1,92 @@
 /*!
-  * Floater - a javascript library to make an element float
-  * v0.0.2
+  * Floater - a jQuery library to float an element 
+  * v0.0.3
   * https://github.com/jgallen23/floater
   * copyright JGA 2011
   * MIT License
   */
 
-!function (name, definition) {
-  if (typeof module != 'undefined' && module.exports) module.exports = definition();
-  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
-  else this[name] = definition();
-}('Floater', function() {
+(function($) {
+  var Floater = function(element, options) {
+    this.init(element, options);
+  };
 
-var aug = function() {
-  var args = Array.prototype.slice.call(arguments);
-  var org = args.shift();
-  if (typeof org === "function") org = org.prototype;
-  for (var i = 0, c = args.length; i < c; i++) {
-    var prop = args[i];
-    for (var name in prop) {
-      org[name] = prop[name];
+  Floater.prototype = {
+    init: function(element, options) {
+      this.el = $(element);
+      this.opts = $.extend({}, $.fn.floater.defaults, options);
+      var offset = this.el.offset();
+      this.originX = offset.left;
+      this.originY = offset.top;
+      this.originTop = this.el.css('top');
+      this.height = this.el.height();
+
+      this.opts.startPoint = this.opts.startPoint == -1 ? this.originY : this.opts.startPoint;
+      //console.log(originX, originY, start);
+
+      this.floating = false;
+      console.log(this);
+      $(window).scroll($.proxy(this.onScroll, this));
+    },
+    startPoint: function(point) {
+      this.opts.startPoint = point;
+    },
+    stopPoint: function(point) {
+      this.opts.stopPoint = point;
+    },
+    startFloat: function() {
+      this.floating = true;
+      this.el.css({
+        position: 'fixed',
+        top: this.opts.topPadding,
+        left: this.originX + this.opts.offsetX
+      });
+    },
+    stopFloat: function(posY) {
+      this.floating = false;
+      this.el.css({
+        position: 'absolute',
+        top: posY,
+        left: 'auto'
+      });
+    },
+    onScroll: function(e) {
+      var scrollY = $(window).scrollTop();
+      if (scrollY > this.opts.startPoint) {
+        if (this.opts.stopPoint != -1 && (scrollY + this.height) > this.opts.stopPoint) {
+          if (this.floating) {
+            this.stopFloat(this.opts.stopPoint - this.height);
+          }
+        } else if (!this.floating) {
+          this.startFloat();
+        }
+      } else if (this.floating && scrollY < this.opts.startPoint) { //top of screen
+        this.stopFloat(this.originTop);
+      }
     }
-  }
-  return org;
-};
+  };
 
-var Floater = function(options) { 
-  var defaults = {
+  $.fn.floater = function(option, arg) {
+    this.each(function(i, item) {
+      var $this = $(this);
+      var data = $this.data('floater');
+      var options = typeof option == 'object' && option;
+      if (!data) {
+        data = new Floater(this, options);
+        $this.data('floater', data);
+      }
+      if (typeof option == 'string') {
+        data[option](arg);
+      }
+    });
+  };
+  $.fn.floater.defaults = {
     topPadding: 10,
     stopPoint: -1,
-    startPoint: 0
+    startPoint: -1,
+    relative: false,
+    offsetX: 0,
+    offsetY: 0
   };
-  var opts = aug({}, defaults, options);
-  if (!opts.el)
-    throw "el is required";
 
-  opts.el.css('top', opts.startPoint).fadeIn();
-  var floating = false;
-
-  var startFloat = function() {
-    floating = true;
-    opts.el.css({
-      position: 'fixed',
-      top: opts.topPadding 
-    });
-  };
-  var stopFloat = function(posY) {
-    floating = false;
-    opts.el.css({
-      position: 'absolute',
-      top: posY 
-    });
-  };
-  var onScroll = function(e) {
-    var scrollY = $(window).scrollTop();
-    if (scrollY > opts.startPoint) {
-      if (opts.stopPoint != -1 && scrollY > opts.stopPoint) {
-        stopFloat(opts.el.offset().top);
-      } else if (!floating) {
-        startFloat();
-      }
-    } else if (scrollY < opts.startPoint && floating) {
-      stopFloat(opts.startPoint);
-    }
-  };
-  $(window).scroll(onScroll);
-};
-
-return Floater;
-});
+})(window.jQuery || window.Zepto);

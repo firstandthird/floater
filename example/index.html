@@ -1,11 +1,6 @@
 <html>
   <head>
     <title>Floater Module Example</title>
-    <script src="live.js"></script>
-    <script src="jquery.js"></script>
-    <!--<script src="../vendor/aug/dist/aug.js"></script>-->
-    <script src="../lib/floater.js"></script>
-    <!--<script src="../dist/floater.js"></script>-->
     <style>
       body { margin: 0; padding: 0; }
       .wrapper { width: 600px; margin: 0 auto; position: relative; }
@@ -33,12 +28,22 @@
       </div>
       <div class="footer">footer</div>
     </div>
+    <script src="../components/jquery/jquery.js"></script>
+    <script src="../components/fidel/dist/fidel.js"></script>
+    <script src="../dist/fidel.floater.js"></script>
     <script>
-      //$('.floater').floater();
+      $('.floater')
+        .floater()
+        .on('floatStart', function() {
+          $(this).addClass('floating');
+        })
+        .on('floatStop', function() {
+          $(this).removeClass('floating');
+        });
       $('.floater2').floater({ stopPoint: $('.content .stop').offset().top });
       $('button').on('click', function() {
-        $('.floater2').floater('startPoint', 0);
-        $('.floater2').floater('stopPoint', -1);
+        $('.floater2').floater('setStartPoint', 0);
+        $('.floater2').floater('setStopPoint', -1);
       });
     </script>
   </body>

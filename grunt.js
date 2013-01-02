@@ -17,12 +17,20 @@ module.exports = function(grunt) {
       dist: {
         src: ['<banner>', 'lib/floater.js'],
         dest: 'dist/fidel.floater.js'
+      },
+      full: {
+        src: ['<banner>', 'components/fidel/dist/fidel.js', 'lib/floater.js'],
+        dest: 'dist/floater.js'
       }
     },
     min: {
       dist: {
         src: ['<banner>', 'dist/fidel.floater.js'],
         dest: 'dist/fidel.floater.min.js'
+      },
+      full: {
+        src: ['<banner>', 'dist/floater.js'],
+        dest: 'dist/floater.min.js'
       }
     },
     watch: {

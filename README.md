@@ -1,5 +1,7 @@
 # Floater
 
+More documentation coming soon.  See examples dir for more advanced usage.
+
 ## Usage
 
-  var floater = new Floater({ el: $(".floater"), stopPoint: 800, startPoint: 150 });
+  $(selector).floater();

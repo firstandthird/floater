@@ -6,9 +6,10 @@
       .wrapper { width: 600px; margin: 0 auto; position: relative; }
       .header, .footer { height: 150px; background: #ccc; }
       .floater { position: absolute; background: #f0f0f0; height: 300px; width: 100px; left: -120px; }
-      .floater2 { background: #f0f0f0; height: 300px; width: 100px; position: absolute; right: 0}
       .content { height: 1000px; }
       .content p { height: 400px }
+      .nav { list-style: none; padding: 10px 0; margin: 0; background: #ddd; }
+      .nav li { display: inline; }
     </style>
   </head>
   <body>
@@ -17,11 +18,13 @@
         I Float
       </div>
       <div class="header">header</div>
+      <ul class="nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
       <div class="content">
-        <button>Remove start/stop points</button>
-        <div class="floater2">
-          I Float
-        </div>
 
         <p>hey, I'm content</p> 
         <div class="stop">STOP</div>
@@ -40,11 +43,8 @@
         .on('floatStop', function() {
           $(this).removeClass('floating');
         });
-      $('.floater2').floater({ stopPoint: $('.content .stop').offset().top });
-      $('button').on('click', function() {
-        $('.floater2').floater('setStartPoint', 0);
-        $('.floater2').floater('setStopPoint', -1);
-      });
+
+      $('.nav').floater({ stopPoint: $('.content .stop').offset().top });
     </script>
   </body>
 </html>

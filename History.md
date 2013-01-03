@@ -1,4 +1,15 @@
 
+0.2.n / 2013-01-03 
+==================
+
+  * [lib] calculate offset on start rather than init
+  * [lib] added on/off methods
+  * [lib] added spacing in between methods
+  * [example] added an inline floater example
+  * [lib] changed width() to css('width') and clear out styles when floatStop
+  * [lib] set topPadding default to 0
+  * add placeholder element while floating to maintain space
+
 0.1.0 / 2013-01-02 
 ==================
 

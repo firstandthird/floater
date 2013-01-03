@@ -1,6 +1,6 @@
 /*!
  * floater - a plugin to make element float on the screen
- * v0.1.0
+ * v0.2.0
  * https://github.com/jgallen23/floater
  * copyright JGA 2013
  * MIT License
@@ -199,53 +199,86 @@ w.Fidel = Fidel;
 (function($) {
   $.declare('floater', {
     defaults: {
-      topPadding: 10,
+      topPadding: 0,
       stopPoint: -1,
       startPoint: -1,
       relative: false,
       offsetX: 0,
       offsetY: 0
     },
+
     init: function() {
-      var offset = this.el.offset();
-      this.originX = offset.left;
-      this.originY = offset.top;
-      this.width = this.el.width();
+      this.enabled = true;
+      this.height = this.el.outerHeight(true);
       this.resetStyles = {
         position: this.el.css('position'),
         top: this.el.css('top'),
         left: this.el.css('left'),
         width: this.el.css('width')
       };
-      this.height = this.el.height();
 
-      this.startPoint = this.startPoint == -1 ? this.originY : this.startPoint;
+      var offset = this.el.offset();
+      this.startPoint = this.startPoint == -1 ? (offset.top - parseInt(this.topPadding, 10)) : this.startPoint;
 
       this.floating = false;
-      $(window).scroll(this.proxy(this.onScroll));
+      $(window).on('scroll', this.proxy(this.onScroll));
+      this.onScroll();
     },
+
     setStartPoint: function(point) {
       this.startPoint = point;
     },
+
     setStopPoint: function(point) {
       this.stopPoint = point;
     },
+
+    createPlaceholder: function() {
+      var classes = this.el[0].className || '';
+      return $('<div/>')
+        .addClass('floater-placeholder ' + classes)
+        .css({ 
+          width: this.el.css('width'),
+          height: this.el.css('height'),
+          visibility: 'hidden'
+        });
+    },
+
     startFloat: function() {
+      if (this.floating) {
+        return;
+      }
       this.floating = true;
+      var offset = this.el.offset();
+      this.el.before(this.createPlaceholder());
       this.el.css({
         position: 'fixed',
         top: this.topPadding,
-        left: this.originX + this.offsetX,
-        width: this.width
+        left: offset.left + this.offsetX,
+        width: this.el.css('width')
       });
       this.emit('floatStart');
     },
+
     stopFloat: function(posY) {
+      if (!this.floating) {
+        return;
+      }
       this.floating = false;
-      this.el.css(this.resetStyles);
+      this.el.prev().remove();
+      this.el.css({
+        position: '',
+        top: '',
+        left: '',
+        width: ''
+      });
       this.emit('floatStop');
     },
+
     onScroll: function(e) {
+      if (!this.enabled) {
+        return;
+      }
       var scrollY = $(window).scrollTop();
       if (scrollY > this.startPoint) {
         if (this.stopPoint != -1 && (scrollY + this.height) > this.stopPoint) {
@@ -258,6 +291,16 @@ w.Fidel = Fidel;
       } else if (this.floating && scrollY < this.startPoint) { //top of screen
         this.stopFloat(this.resetStyles.top);
       }
+    },
+
+    on: function() {
+      this.enabled = true;
+      this.onScroll();
+    },
+
+    off: function() {
+      this.stopFloat();
+      this.enabled = false;
     }
   });
 

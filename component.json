@@ -1,7 +1,7 @@
 {
   "name": "floater",
   "description": "a plugin to make element float on the screen",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/jgallen23/floater",
   "license": "MIT",
   "copyright": "JGA",

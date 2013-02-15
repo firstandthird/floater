@@ -1,6 +1,6 @@
 /*!
  * floater - a plugin to make element float on the screen
- * v0.2.0
+ * v0.2.1
  * https://github.com/jgallen23/floater
  * copyright JGA 2013
  * MIT License
@@ -220,6 +220,10 @@ w.Fidel = Fidel;
       var offset = this.el.offset();
       this.startPoint = this.startPoint == -1 ? (offset.top - parseInt(this.topPadding, 10)) : this.startPoint;
 
+      if (typeof this.stopPoint == 'object' && this.stopPoint.length) {
+        this.stopPoint = this.stopPoint.offset().top;
+      }
+
       this.floating = false;
       $(window).on('scroll', this.proxy(this.onScroll));
       this.onScroll();
@@ -260,17 +264,17 @@ w.Fidel = Fidel;
       this.emit('floatStart');
     },
 
-    stopFloat: function(posY) {
+    stopFloat: function(y) {
       if (!this.floating) {
         return;
       }
       this.floating = false;
       this.el.prev().remove();
       this.el.css({
-        position: '',
-        top: '',
+        position: (y) ? 'absolute' : '',
+        top: y || '',
         left: '',
-        width: ''
+        width: (y) ? this.el.css('width') : ''
       });
       this.emit('floatStop');
     },
@@ -289,7 +293,7 @@ w.Fidel = Fidel;
           this.startFloat();
         }
       } else if (this.floating && scrollY < this.startPoint) { //top of screen
-        this.stopFloat(this.resetStyles.top);
+        this.stopFloat();
       }
     },
 

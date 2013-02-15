@@ -1,5 +1,11 @@
 
-0.2.n / 2013-01-03 
+0.2.1 / 2013-02-14 
+==================
+
+  * [lib] fix freezing on stop
+  * [lib] stopPoint can be $(el)
+
+0.2.0 / 2013-01-03 
 ==================
 
   * [lib] calculate offset on start rather than init

@@ -50,11 +50,9 @@
           $(this).removeClass('floating');
         });
 
-      var stop = $('.content .stop').offset().top;
+      $('.nav').floater({ stopPoint: $('.content .stop') });
 
-      $('.nav').floater({ stopPoint: stop });
-
-      $('.floater2').floater({ topPadding: '60px', stopPoint: stop });
+      $('.floater2').floater({ topPadding: '60px', stopPoint: $('.content .stop') });
     </script>
   </body>
 </html>

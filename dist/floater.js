@@ -1,6 +1,6 @@
 /*!
  * floater - a plugin to make element float on the screen
- * v0.2.1
+ * v0.2.2
  * https://github.com/jgallen23/floater
  * copyright JGA 2013
  * MIT License
@@ -204,12 +204,12 @@ w.Fidel = Fidel;
       startPoint: -1,
       relative: false,
       offsetX: 0,
-      offsetY: 0
+      offsetY: 0,
+      debug: false
     },
 
     init: function() {
       this.enabled = true;
-      this.height = this.el.outerHeight(true);
       this.resetStyles = {
         position: this.el.css('position'),
         top: this.el.css('top'),
@@ -218,7 +218,9 @@ w.Fidel = Fidel;
       };
 
       var offset = this.el.offset();
-      this.startPoint = this.startPoint == -1 ? (offset.top - parseInt(this.topPadding, 10)) : this.startPoint;
+      this.topPadding = parseInt(this.topPadding, 10);
+      this.startPoint = this.startPoint == -1 ? (offset.top - this.topPadding) : this.startPoint;
+      this.height = this.el.outerHeight(true);
 
       if (typeof this.stopPoint == 'object' && this.stopPoint.length) {
         this.stopPoint = this.stopPoint.offset().top;
@@ -227,6 +229,9 @@ w.Fidel = Fidel;
       this.floating = false;
       $(window).on('scroll', this.proxy(this.onScroll));
       this.onScroll();
+      if (this.debug) {
+        this.showDebug();
+      }
     },
 
     setStartPoint: function(point) {
@@ -235,6 +240,20 @@ w.Fidel = Fidel;
 
     setStopPoint: function(point) {
       this.stopPoint = point;
+    },
+
+    showDebug: function() {
+      var showLine = function(top) {
+        $('<div/>').css({
+          position: 'absolute',
+          height: '1px',
+          width: '100%',
+          background: 'red',
+          top: top 
+        }).appendTo('body');
+      };
+      showLine(this.startPoint);
+      showLine(this.stopPoint);
     },
 
     createPlaceholder: function() {
@@ -254,10 +273,12 @@ w.Fidel = Fidel;
       }
       this.floating = true;
       var offset = this.el.offset();
-      this.el.before(this.createPlaceholder());
+      if (!this.el.prev().hasClass('floater-placeholder')) {
+        this.el.before(this.createPlaceholder());
+      }
       this.el.css({
         position: 'fixed',
-        top: this.topPadding,
+        top: this.topPadding + 'px',
         left: offset.left + this.offsetX,
         width: this.el.css('width')
       });
@@ -271,12 +292,27 @@ w.Fidel = Fidel;
       this.floating = false;
       this.el.prev().remove();
       this.el.css({
-        position: (y) ? 'absolute' : '',
-        top: y || '',
+        position: '',
+        top: '',
         left: '',
-        width: (y) ? this.el.css('width') : ''
+        width: '' 
       });
       this.emit('floatStop');
+    },
+
+    freezeFloat: function(y) {
+      if (!this.floating) {
+        return;
+      }
+      this.floating = false;
+      this.el.css({
+        position: 'absolute',
+        top: y,
+        left: '',
+        width: this.el.css('width')
+      });
+      this.emit('floatStop');
+
     },
 
     onScroll: function(e) {
@@ -285,9 +321,9 @@ w.Fidel = Fidel;
       }
       var scrollY = $(window).scrollTop();
       if (scrollY > this.startPoint) {
-        if (this.stopPoint != -1 && (scrollY + this.height) > this.stopPoint) {
+        if (this.stopPoint != -1 && (scrollY + this.height + this.topPadding) > this.stopPoint) {
           if (this.floating) {
-            this.stopFloat(this.stopPoint - this.height);
+            this.freezeFloat(this.stopPoint - this.height);
           }
         } else if (!this.floating) {
           this.startFloat();

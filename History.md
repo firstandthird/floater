@@ -1,4 +1,11 @@
 
+0.2.2 / 2013-02-16 
+==================
+
+  * [example] default to debug on
+  * [lib] fix for topPadding and added freezeFloat method
+  * [lib] added debug option to show start and stop lines
+
 0.2.1 / 2013-02-14 
 ==================
 

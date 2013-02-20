@@ -1,4 +1,10 @@
 
+0.2.3 / 2013-02-19 
+==================
+
+  * [lib] option for stopOffset
+  * [lib] update debug lines on set
+
 0.2.2 / 2013-02-16 
 ==================
 

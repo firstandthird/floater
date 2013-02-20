@@ -1,6 +1,6 @@
 /*!
  * floater - a plugin to make element float on the screen
- * v0.2.2
+ * v0.2.3
  * https://github.com/jgallen23/floater
  * copyright JGA 2013
  * MIT License
@@ -15,6 +15,7 @@
       relative: false,
       offsetX: 0,
       offsetY: 0,
+      stopOffset: 0,
       debug: false
     },
 
@@ -46,21 +47,30 @@
 
     setStartPoint: function(point) {
       this.startPoint = point;
+      if (this.debug) {
+        this.showDebug();
+      }
     },
 
     setStopPoint: function(point) {
       this.stopPoint = point;
+      if (this.debug) {
+        this.showDebug();
+      }
     },
 
     showDebug: function() {
+      $('.floater-debug').remove();
       var showLine = function(top) {
         $('<div/>').css({
           position: 'absolute',
           height: '1px',
           width: '100%',
           background: 'red',
-          top: top 
-        }).appendTo('body');
+          top: top
+        })
+        .addClass('floater-debug')
+        .appendTo('body');
       };
       showLine(this.startPoint);
       showLine(this.stopPoint);
@@ -133,7 +143,7 @@
       if (scrollY > this.startPoint) {
         if (this.stopPoint != -1 && (scrollY + this.height + this.topPadding) > this.stopPoint) {
           if (this.floating) {
-            this.freezeFloat(this.stopPoint - this.height);
+            this.freezeFloat(this.stopPoint - this.height - this.stopOffset);
           }
         } else if (!this.floating) {
           this.startFloat();

@@ -1,26 +1,41 @@
 /*!
  * floater - a plugin to make element float on the screen
- * v0.2.3
+ * v0.3.0
  * https://github.com/jgallen23/floater
  * copyright JGA 2013
  * MIT License
 */
-
 (function($) {
   $.declare('floater', {
     defaults: {
       topPadding: 0,
       stopPoint: -1,
+      stopElement: null,
       startPoint: -1,
       relative: false,
       offsetX: 0,
       offsetY: 0,
       stopOffset: 0,
-      debug: false
+      debug: false,
+      autoRecalc: false,
+      floatClass: 'floating'
     },
 
     init: function() {
       this.enabled = true;
+      this.floating = false;
+      this.recalcTimeout = null;
+
+      this.recalc();
+
+      $(window).on('scroll', this.proxy(this.onScroll));
+      this.onScroll();
+    },
+
+    recalc: function() {
+      if (this.floating) {
+        return;
+      }
       this.resetStyles = {
         position: this.el.css('position'),
         top: this.el.css('top'),
@@ -30,16 +45,12 @@
 
       var offset = this.el.offset();
       this.topPadding = parseInt(this.topPadding, 10);
-      this.startPoint = this.startPoint == -1 ? (offset.top - this.topPadding) : this.startPoint;
+      this.startPoint = offset.top - this.topPadding;
       this.height = this.el.outerHeight(true);
 
-      if (typeof this.stopPoint == 'object' && this.stopPoint.length) {
-        this.stopPoint = this.stopPoint.offset().top;
+      if (this.stopElement) {
+        this.stopPoint = this.stopElement.offset().top;
       }
-
-      this.floating = false;
-      $(window).on('scroll', this.proxy(this.onScroll));
-      this.onScroll();
       if (this.debug) {
         this.showDebug();
       }
@@ -102,6 +113,9 @@
         left: offset.left + this.offsetX,
         width: this.el.css('width')
       });
+      if (this.floatClass) {
+        this.el.addClass(this.floatClass);
+      }
       this.emit('floatStart');
     },
 
@@ -117,6 +131,9 @@
         left: '',
         width: '' 
       });
+      if (this.floatClass) {
+        this.el.removeClass(this.floatClass);
+      }
       this.emit('floatStop');
     },
 
@@ -138,6 +155,10 @@
     onScroll: function(e) {
       if (!this.enabled) {
         return;
+      }
+      if (this.autoRecalc) {
+        clearTimeout(this.recalcTimeout);
+        this.recalcTimeout = setTimeout(this.proxy(this.recalc), 500);
       }
       var scrollY = $(window).scrollTop();
       if (scrollY > this.startPoint) {

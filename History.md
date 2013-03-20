@@ -1,4 +1,13 @@
 
+0.3.0 / 2013-03-20 
+==================
+
+  * [lib] added floatClass that gets added on float and removed on float stop
+  * [example] added content-resize example with autoRecalc
+  * [example] renamed to standard.html, updated to use stopElement
+  * [lib] added recalc method, autoRecalc option, stopElement instead of stopPoint
+  * [grunt] updated to 0.4
+
 0.2.3 / 2013-02-19 
 ==================
 

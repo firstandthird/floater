@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Floater Content Resize Example</title>
+    <style>
+      body { margin: 0; padding: 0; }
+      .wrapper { width: 600px; margin: 0 auto; position: relative; }
+      .header, .footer { height: 150px; background: #ccc; }
+      .footer { height: 4000px; }
+      .floater { position: absolute; background: #f0f0f0; height: 300px; width: 100px; left: -120px; }
+      .content { height: 300px; }
+      .nav { list-style: none; padding: 10px 0; margin: 0; background: #ddd; }
+      .nav li { display: inline; }
+      .floater2 { float: left; background: #ddd; width: 150px; margin-right: 10px; box-sizing: border-box; padding: 10px; border: 1px solid #ccc;}
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">header</div>
+      <ul class="nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <div class="content">
+        <p>hey, I'm content</p> 
+      </div>
+      <div class="footer">footer</div>
+    </div>
+    <script src="../components/jquery/jquery.js"></script>
+    <script src="../dist/floater.js"></script>
+    <script>
+      $.fn.floater.defaults.debug = true;
+
+      $('.nav').floater({ stopElement: $('.footer'), autoRecalc: true });
+
+      //delay .5 sec
+      setTimeout(function() {
+        $('.header').css('height', 250);
+      }, 500);
+    </script>
+  </body>
+</html>

@@ -6,9 +6,9 @@
       body { margin: 0; padding: 0; }
       .wrapper { width: 600px; margin: 0 auto; position: relative; }
       .header, .footer { height: 150px; background: #ccc; }
+      .footer { height: 4000px; }
       .floater { position: absolute; background: #f0f0f0; height: 300px; width: 100px; left: -120px; }
-      .content { height: 1000px; }
-      .content p { height: 400px }
+      .content { height: 300px; }
       .nav { list-style: none; padding: 10px 0; margin: 0; background: #ddd; }
       .nav li { display: inline; }
       .floater2 { float: left; background: #ddd; width: 150px; margin-right: 10px; box-sizing: border-box; padding: 10px; border: 1px solid #ccc;}
@@ -32,13 +32,10 @@
         </div>
 
         <p>hey, I'm content</p> 
-        <div class="stop">STOP</div>
       </div>
       <div class="footer">footer</div>
     </div>
     <script src="../components/jquery/jquery.js"></script>
-    <!--<script src="../components/fidel/dist/fidel.js"></script>-->
-    <!--<script src="../dist/fidel.floater.js"></script>-->
     <script src="../dist/floater.js"></script>
     <script>
       $.fn.floater.defaults.debug = true;
@@ -51,9 +48,9 @@
           $(this).removeClass('floating');
         });
 
-      $('.nav').floater({ stopPoint: $('.content .stop') });
+      $('.nav').floater({ stopElement: $('.footer') });
 
-      $('.floater2').floater({ topPadding: '60px', stopPoint: $('.content .stop') });
+      $('.floater2').floater({ topPadding: '60px', stopElement: $('.footer') });
     </script>
   </body>
 </html>

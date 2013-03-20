@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    info: '<json:component.json>',
+    info: grunt.file.readJSON('component.json'),
     meta: {
       banner: '/*!\n'+
               ' * <%= info.name %> - <%= info.description %>\n'+
@@ -8,34 +8,40 @@ module.exports = function(grunt) {
               ' * <%= info.homepage %>\n'+
               ' * copyright <%= info.copyright %> <%= grunt.template.today("yyyy") %>\n'+
               ' * <%= info.license %> License\n'+
-              '*/'
+              '*/\n'
     },
-    lint: {
+    jshint: {
       all: ['lib/**/*.js', 'grunt.js', 'component.json']
     },
     concat: {
+      options: {
+        banner: '<%= meta.banner %>'
+      },
       dist: {
-        src: ['<banner>', 'lib/floater.js'],
+        src: 'lib/floater.js',
         dest: 'dist/fidel.floater.js'
       },
       full: {
-        src: ['<banner>', 'components/fidel/dist/fidel.js', 'lib/floater.js'],
+        src: ['components/fidel/dist/fidel.js', 'lib/floater.js'],
         dest: 'dist/floater.js'
       }
     },
-    min: {
+    uglify: {
+      options: {
+        banner: '<%= meta.banner %>'
+      },
       dist: {
-        src: ['<banner>', 'dist/fidel.floater.js'],
+        src: 'dist/fidel.floater.js',
         dest: 'dist/fidel.floater.min.js'
       },
       full: {
-        src: ['<banner>', 'dist/floater.js'],
+        src: 'dist/floater.js',
         dest: 'dist/floater.min.js'
       }
     },
     watch: {
       js: {
-        files: '<config:lint.all>',
+        files: '<%= jshint.all %>',
         tasks: 'default' 
       }
     },
@@ -46,12 +52,19 @@ module.exports = function(grunt) {
         'dist/*'
       ]
     },
-    server:{
-      port: 8000,
-      base: '.'
+    connect: {
+      server:{
+        port: 8000,
+        base: '.'
+      }
     }
   });
   grunt.loadNpmTasks('grunt-reloadr');
-  grunt.registerTask('default', 'lint concat min');
-  grunt.registerTask('dev', 'server reloadr watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.registerTask('default', ['jshint',  'concat', 'uglify']);
+  grunt.registerTask('dev', ['connect', 'reloadr', 'watch']);
 };

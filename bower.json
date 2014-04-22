@@ -1,0 +1,23 @@
+{
+  "name": "floater",
+  "description": "a plugin to make element float on the screen",
+  "version": "0.3.0",
+  "homepage": "https://github.com/firstandthird/floater",
+  "license": "MIT",
+  "copyright": "JGA",
+  "main": "dist/floater.bower.js",
+  "dependencies": {
+    "fidel": "2.*"
+  },
+  "devDependencies": {
+    "assert": "*",
+    "blanket": "*"
+  },
+  "ignore": [
+    "test",
+    "example",
+    "lib",
+    "Gruntfile.js",
+    "package.json"
+  ]
+}

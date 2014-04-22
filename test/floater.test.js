@@ -1,0 +1,3 @@
+suite('fidel-slider', function() {
+
+});

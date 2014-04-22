@@ -12,12 +12,29 @@
     }
   </script>
   <script>mocha.setup('tdd')</script>
+  <style>
+      body { margin: 0; padding: 0; }
+      .wrapper { width: 600px; margin: 0 auto; position: relative; }
+      .floater { position: absolute; background: #f0f0f0; height: 300px; width: 100px; left: -120px; }
+      .content { height: 3000px; }
+      #mocha { position: absolute; top: 0; }
+    </style>
 </head>
 <body>
   <div id="mocha"></div>
-  <div id="fixture" style="display: none">
-
+  <div id="fixture"></div>
+  <div id="clone" style="display: none">
+    <div class="wrapper">
+      <div class="floater">
+        I Float
+      </div>
+      <div class="content">
+        <p>hey, I'm content</p> 
+      </div>
+      <div class="footer">footer</div>
+    </div>
   </div>
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
   <script src="../dist/floater.js" data-cover></script>
   <script src="floater.test.js"></script>
   <script>

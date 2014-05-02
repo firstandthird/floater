@@ -1,8 +1,8 @@
 /*!
  * floater - a plugin to make element float on the screen
- * v0.3.0
- * https://github.com/jgallen23/floater
- * copyright JGA 2013
+ * v0.4.0
+ * https://github.com/firstandthird/floater
+ * copyright First+Third 2014
  * MIT License
 */
 (function($) {

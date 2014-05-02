@@ -1,4 +1,11 @@
 
+0.4.0 / 2014-05-02 
+==================
+
+  * fixed example
+  * Added tests.
+  * Updated build scripts.
+
 0.3.0 / 2013-03-20 
 ==================
 
